@@ -25,7 +25,8 @@
 .loginhelper {
   text-align: center;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: flex-end;
   margin-top: 1rem;
   flex-wrap: wrap;
 }

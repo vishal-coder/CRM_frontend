@@ -1,0 +1,6 @@
+.dashboarddetails {
+  flex: 10;
+  background-color: #e1e1e2;
+  border-radius: 15px;
+  overflow: auto;
+}

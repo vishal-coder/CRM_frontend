@@ -20,11 +20,8 @@ function Login() {
       setFieldError("username", response.message);
     } else {
       dispatch(setUser(response));
-      if (response.user.userType != "admin") {
-        navigate("/singlePost");
-      } else {
-        navigate("/singlePost");
-      }
+
+      navigate("/dashboard");
     }
   };
   const loginvalidationschema = yup.object({
@@ -93,12 +90,12 @@ function Login() {
           Login
         </Button>
         <Form.Group className="mb-3 loginhelper" controlId="formBasicCheckbox">
-          <p>
+          {/* <p>
             Not a member?{" "}
             <a href="" onClick={() => navigate("/register")}>
               Register
             </a>
-          </p>
+          </p> */}
           <p>
             <a href="" onClick={() => navigate("/forgotpassword")}>
               Forgot Password

@@ -25,53 +25,24 @@ function HeaderComponent() {
       setIsLoading(false);
       toast.success("User Logged out successfully");
       dispatch(LOG_OUT());
-      // dispatch(resetCart());
+
       navigate("/");
     }
   };
   return (
-    <Navbar collapseOnSelect expand="lg" fixed="top" className="sticky-nav">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      fixed="top"
+      className="sticky-nav justify-content-center"
+    >
       <Container>
-        <Navbar.Brand>FundME</Navbar.Brand>
+        <Navbar.Brand>EasyCRM</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Home{" "}
-            </Nav.Link>
-            <Nav.Link
-              onClick={() => {
-                navigate("/posts");
-              }}
-            >
-              Listings
-            </Nav.Link>
-            <Nav.Link href="#pricing">Search</Nav.Link>
-          </Nav>
+          <Nav className="me-auto"></Nav>
           <Nav>
-            {!user ? (
-              <>
-                {" "}
-                <Nav.Link
-                  onClick={() => {
-                    navigate("/register");
-                  }}
-                >
-                  Register
-                </Nav.Link>
-                <Nav.Link
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  Login
-                </Nav.Link>{" "}
-              </>
-            ) : (
+            {user && (
               <>
                 <Navbar.Text>Welcome, {user.user.name}</Navbar.Text>
                 <Nav.Link

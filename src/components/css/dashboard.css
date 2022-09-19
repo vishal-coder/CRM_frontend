@@ -1,0 +1,6 @@
+.dashboard {
+  display: flex;
+  margin: 1rem;
+  gap: 1rem;
+  height: 85vh;
+}

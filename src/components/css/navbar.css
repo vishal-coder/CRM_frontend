@@ -4,16 +4,23 @@
 
 .navbar-brand {
   font-weight: 700;
-  color: #800000;
+  font-size: x-larger;
+  color: orange;
+}
+
+.navbar-nav,
+.navbar-text {
+  color: white !important;
 }
 .navbar-brand:hover {
-  color: white;
+  color: orange;
 }
 .sticky-nav {
   position: sticky;
   top: 0;
-  background-color: teal;
+  background-color: #272a30;
   z-index: 999;
+  color: aliceblue;
 }
 
 .nav-link {
@@ -21,9 +28,7 @@
 }
 
 .nav-link:hover {
-  /* border-radius: 2rem;
-  color: white;*/
-  color: #800000;
+  color: orange;
   border-radius: 30px;
   transition: 0.2s;
   animation: shake 0.5s;
