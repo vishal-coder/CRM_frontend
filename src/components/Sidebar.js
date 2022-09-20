@@ -30,15 +30,15 @@ function Sidebar() {
       ) : null}
 
       <NavLink
-        to="register"
+        to="addLead"
         className={({ isActive }) =>
           isActive ? "link-active sidebarItem" : "link sidebarItem"
         }
       >
-        Create Leads
+        Add Leads
       </NavLink>
       <NavLink
-        to="register"
+        to="leadDashboard"
         className={({ isActive }) =>
           isActive ? "link-active sidebarItem" : "link sidebarItem"
         }

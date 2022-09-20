@@ -6,24 +6,34 @@ import { deleteUser, getAllUsers } from "../services/UserService.js";
 
 import "./css/userdashboard.css";
 import { useSelector } from "react-redux";
+import { getLead } from "../services/LeadService.js";
 
-function UserDashboard() {
-  const navigate = useNavigate();
+function LeadDashboard() {
   const { user } = useSelector((state) => state.auth);
-  const [userlist, setUserlist] = useState(null);
+  const [leadlist, setLeadlist] = useState([]);
 
   useEffect(() => {
     async function getData() {
-      const response = await getAllUsers(
+      console.log("getleads called");
+      const response = await getLead(
         {
           username: user.email,
           userType: user.userType,
         },
         user.token
       );
+      //   response.leads.forEach((element) => {
+      //     leadlist(...leadlist, element.leads);
+      //   });
+      if (user.userType === "Manager") {
+        const list = response.leads.map((lead) => lead.leads);
+        setLeadlist(list);
+      } else {
+        setLeadlist(response.leads);
+      }
 
-      setUserlist(response.users);
-      console.log("response of users is", response);
+      console.log("response of Leads is", response);
+      console.log("response of Leads is----", response.leads);
     }
     getData();
   }, []);
@@ -31,15 +41,15 @@ function UserDashboard() {
   const handleDelete = async (rowIndex) => {
     alert("inside handledelete");
     console.log("data", rowIndex);
-    const updatedList = userlist.filter((item, index) => {
+    const updatedList = leadlist.filter((item, index) => {
       return index != rowIndex;
     });
-    const deleteItem = userlist.filter((item, index) => {
+    const deleteItem = leadlist.filter((item, index) => {
       return index == rowIndex;
     });
-    console.log("deleteItem", deleteItem[0].username);
+    console.log("deleteItem", deleteItem);
     const response = await deleteUser({ username: deleteItem[0].username });
-    setUserlist(updatedList);
+    setLeadlist(updatedList);
 
     console.log("updatedlist is", updatedList);
   };
@@ -68,8 +78,8 @@ function UserDashboard() {
       },
     },
     {
-      name: "username",
-      label: "username",
+      name: "email",
+      label: "email",
       options: {
         filter: true,
         sort: false,
@@ -84,8 +94,8 @@ function UserDashboard() {
       },
     },
     {
-      name: "isActive",
-      label: "isActive",
+      name: "createdBy",
+      label: "Created By",
       body: { booleanChecker },
 
       options: {
@@ -94,8 +104,8 @@ function UserDashboard() {
       },
     },
     {
-      name: "userType",
-      label: "User Type",
+      name: "source",
+      label: "Source",
       options: {
         filter: true,
         sort: false,
@@ -129,11 +139,11 @@ function UserDashboard() {
   };
 
   return (
-    <div className="userdashboard">
-      {userlist && userlist.length > 0 ? (
+    <div className="Leaddashboard">
+      {leadlist && leadlist.length > 0 ? (
         <MUIDataTable
           title={"Employee List"}
-          data={userlist}
+          data={leadlist}
           columns={columns}
           options={options}
         />
@@ -144,4 +154,4 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard;
+export default LeadDashboard;

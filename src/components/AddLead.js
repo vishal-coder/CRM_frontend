@@ -1,4 +1,4 @@
-import "./css/register.css";
+import "./css/addlead.css";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -11,8 +11,9 @@ import { submitRegistration } from "../services/authService";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { createLead } from "../services/LeadService";
 
-function AddUserPage() {
+function AddLead() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
@@ -21,7 +22,8 @@ function AddUserPage() {
     firstname: string().required().min(2),
     lastname: string().required().min(2),
     phone: string().required().min(10).max(10),
-    username: string().email().required(),
+    email: string().email().required(),
+    source: string().required().min(2),
   });
 
   const {
@@ -39,32 +41,31 @@ function AddUserPage() {
       firstname: "",
       lastname: "",
       phone: "",
-      username: "",
+      email: "",
+      source: "",
     },
     validationSchema: formvalidation,
     onSubmit: async (values) => {
       console.log(user);
       setLoading(true);
-      values.userType = "Employee";
-      values.parent = user.email;
-      if (user.userType === "Admin") {
-        values.userType = "Manager";
-      }
-      const response = await submitRegistration(values);
+      values.createdBy = user.email;
+      values.category = "Lead";
+
+      const response = await createLead(values);
       setLoading(false);
       if (!response.success) {
         setFieldError("firstname", response.message);
       } else {
         resetForm();
-        toast.success("User Added Successful");
+        toast.success("Lead Added Successful");
       }
     },
   });
 
   return (
-    <div className="register">
-      <Form className="registerForm" onSubmit={handleSubmit}>
-        <h3>Add New user</h3>
+    <div className="AddLead">
+      <Form className="AddLeadForm" onSubmit={handleSubmit}>
+        <h3>Add New Lead</h3>
         {touched.firstname && errors.firstname ? (
           <div className="error">{errors.firstname}</div>
         ) : (
@@ -119,8 +120,8 @@ function AddUserPage() {
               onBlur={handleBlur}
             />
           </Form.Group>
-          {touched.username && errors.username ? (
-            <span className="error">{errors.username}</span>
+          {touched.email && errors.email ? (
+            <span className="error">{errors.email}</span>
           ) : (
             ""
           )}
@@ -129,22 +130,50 @@ function AddUserPage() {
             <Form.Control
               type="email"
               placeholder="Enter email"
-              name="username"
-              value={values.username}
+              name="email"
+              value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
             />
           </Form.Group>
+          {touched.source && errors.source ? (
+            <span className="error">{errors.source}</span>
+          ) : (
+            ""
+          )}
+          <Form.Group controlId="formGridPassword">
+            <Form.Label>Source</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Source"
+              name="source"
+              value={values.source}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </Form.Group>
+          <Form.Group controlId="formGridPassword">
+            <Form.Label>Created By</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Source"
+              name="CreatedBY"
+              value={user.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled
+            />
+          </Form.Group>
         </Row>
 
-        <div className="registerbtngrp">
+        <div className="AddLeadbtngrp">
           <Button
             variant="primary"
             type="submit"
-            className="registerBtn"
+            className="AddLeadBtn"
             disabled={loading}
           >
-            Create User
+            Create Lead
           </Button>
           <Button variant="warning" type="submit" className="resetBtn">
             Reset
@@ -155,4 +184,4 @@ function AddUserPage() {
   );
 }
 
-export default AddUserPage;
+export default AddLead;

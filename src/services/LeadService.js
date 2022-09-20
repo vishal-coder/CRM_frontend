@@ -1,9 +1,11 @@
-export async function getAllUsers(values, token) {
+export async function createLead(values, token) {
   try {
-    const response = await fetch(`${process.env.REACT_APP_API}/auth/allUsers`, {
+    const response = await fetch(`${process.env.REACT_APP_API}/lead/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
+        "x-auth-token": token,
       },
       body: JSON.stringify(values),
     });
@@ -15,10 +17,10 @@ export async function getAllUsers(values, token) {
   }
 }
 
-export async function deleteUser(values, token) {
+export async function getLead(values, token) {
   try {
-    const response = await fetch(`${process.env.REACT_APP_API}/auth/delete`, {
-      method: "DELETE",
+    const response = await fetch(`${process.env.REACT_APP_API}/lead/getAll`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",

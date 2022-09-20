@@ -14,6 +14,8 @@ import VerifyEmail from "./components/VerifyEmail";
 import VerifyToken from "./components/VerifyToken";
 import UserDashboard from "./components/UserDashboard";
 import AddUserPage from "./components/AddUserPage";
+import AddLead from "./components/AddLead";
+import LeadDashboard from "./components/LeadDashboard";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="userDashboard" element={<UserDashboard />} />
           <Route path="addUserPage" element={<AddUserPage />} />
+          <Route path="addLead" element={<AddLead />} />
+          <Route path="leadDashboard" element={<LeadDashboard />} />
         </Route>
       </Routes>
     </div>
