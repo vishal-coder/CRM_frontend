@@ -44,7 +44,7 @@ function HeaderComponent() {
           <Nav>
             {user && (
               <>
-                <Navbar.Text>Welcome, {user.user.name}</Navbar.Text>
+                <Navbar.Text>Welcome, {user.name}</Navbar.Text>
                 <Nav.Link
                   onClick={() => {
                     handleLogout();

@@ -10,18 +10,18 @@ import { useNavigate } from "react-router-dom";
 import { submitRegistration } from "../services/authService";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Register() {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
   const [loading, setLoading] = useState(false);
   const formvalidation = yup.object({
     firstname: string().required().min(2),
     lastname: string().required().min(2),
-    phone: string().required().min(10),
+    phone: string().required().min(10).max(10),
     username: string().email().required(),
-    address: string().required().min(30),
-    about: string().required().min(30),
-    password: string().required().min(6),
   });
 
   const {
@@ -33,29 +33,30 @@ function Register() {
     touched,
     errors,
     setFieldError,
+    resetForm,
   } = useFormik({
     initialValues: {
       firstname: "",
       lastname: "",
       phone: "",
       username: "",
-      address: "",
-      about: "",
-      password: "",
     },
     validationSchema: formvalidation,
     onSubmit: async (values) => {
-      console.log(values);
+      console.log(user);
       setLoading(true);
+      values.userType = "Employee";
+      if (user.userType === "Admin") {
+        values.userType = "Manager";
+      }
       const response = await submitRegistration(values);
       if (!response.success) {
         setLoading(false);
         setFieldError("firstname", response.message);
       } else {
+        resetForm();
         toast.success("Registration Successful");
         toast.success("Visit your inbox to verify your account");
-
-        navigate("/");
       }
     },
   });
@@ -63,19 +64,15 @@ function Register() {
   return (
     <div className="register">
       <Form className="registerForm" onSubmit={handleSubmit}>
-        <h3>Register to use our services</h3>
+        <h3>Add New user</h3>
         {touched.firstname && errors.firstname ? (
           <div className="error">{errors.firstname}</div>
         ) : (
           ""
         )}
-        {touched.lastname && errors.lastname ? (
-          <div className="error">{errors.lastname}</div>
-        ) : (
-          ""
-        )}
+
         <Row className="mb-3">
-          <Form.Group as={Col} controlId="formGridEmail">
+          <Form.Group controlId="formGridEmail">
             <Form.Label>First Name</Form.Label>
             <Form.Control
               type="text"
@@ -86,8 +83,12 @@ function Register() {
               onBlur={handleBlur}
             />
           </Form.Group>
-
-          <Form.Group as={Col} controlId="formGridLastname">
+          {touched.lastname && errors.lastname ? (
+            <div className="error">{errors.lastname}</div>
+          ) : (
+            ""
+          )}
+          <Form.Group controlId="formGridLastname">
             <Form.Label>Last Name</Form.Label>
             <Form.Control
               type="text"
@@ -106,12 +107,8 @@ function Register() {
           ) : (
             ""
           )}
-          {touched.username && errors.username ? (
-            <span className="error">{errors.username}</span>
-          ) : (
-            ""
-          )}
-          <Form.Group as={Col} controlId="formGridEmail">
+
+          <Form.Group controlId="formGridEmail">
             <Form.Label>Phone</Form.Label>
             <Form.Control
               type="number"
@@ -122,8 +119,12 @@ function Register() {
               onBlur={handleBlur}
             />
           </Form.Group>
-
-          <Form.Group as={Col} controlId="formGridPassword">
+          {touched.username && errors.username ? (
+            <span className="error">{errors.username}</span>
+          ) : (
+            ""
+          )}
+          <Form.Group controlId="formGridPassword">
             <Form.Label>Email address</Form.Label>
             <Form.Control
               type="email"
@@ -135,54 +136,7 @@ function Register() {
             />
           </Form.Group>
         </Row>
-        {touched.address && errors.address ? (
-          <div className="error">{errors.address}</div>
-        ) : (
-          ""
-        )}
-        <Form.Group className="mb-3" controlId="formGridAddress1">
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            placeholder="Enter your address"
-            as="textarea"
-            name="address"
-            value={values.address}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </Form.Group>
-        {touched.about && errors.about ? (
-          <div className="error">{errors.about}</div>
-        ) : (
-          ""
-        )}
-        <Form.Group className="mb-3" controlId="formGridAbout">
-          <Form.Label>About Yourself</Form.Label>
-          <Form.Control
-            as="textarea"
-            placeholder="Let others know about you"
-            name="about"
-            value={values.about}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </Form.Group>
-        {touched.password && errors.password ? (
-          <div className="error">{errors.password}</div>
-        ) : (
-          ""
-        )}
-        <Form.Group className="mb-3" id="formGridCheckbox">
-          <Form.Label>Password </Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </Form.Group>
+
         <div className="registerbtngrp">
           <Button
             variant="primary"
@@ -190,7 +144,7 @@ function Register() {
             className="registerBtn"
             disabled={loading}
           >
-            Register
+            Create User
           </Button>
           <Button variant="warning" type="submit" className="resetBtn">
             Reset

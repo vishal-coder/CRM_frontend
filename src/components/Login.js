@@ -19,7 +19,7 @@ function Login() {
     if (!response.success) {
       setFieldError("username", response.message);
     } else {
-      dispatch(setUser(response));
+      dispatch(setUser(response.user));
 
       navigate("/dashboard");
     }
