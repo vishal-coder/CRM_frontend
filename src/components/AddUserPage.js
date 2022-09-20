@@ -46,17 +46,17 @@ function Register() {
       console.log(user);
       setLoading(true);
       values.userType = "Employee";
+      values.parent = user.email;
       if (user.userType === "Admin") {
         values.userType = "Manager";
       }
       const response = await submitRegistration(values);
+      setLoading(false);
       if (!response.success) {
-        setLoading(false);
         setFieldError("firstname", response.message);
       } else {
         resetForm();
-        toast.success("Registration Successful");
-        toast.success("Visit your inbox to verify your account");
+        toast.success("User Added Successful");
       }
     },
   });

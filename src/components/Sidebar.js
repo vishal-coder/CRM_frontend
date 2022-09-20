@@ -7,7 +7,7 @@ function Sidebar() {
 
   return (
     <nav className="flex-column sidebar">
-      {user.userType != "Employee" ? (
+      {user && user.userType != "Employee" ? (
         <>
           {" "}
           <NavLink
@@ -61,7 +61,7 @@ function Sidebar() {
       >
         All Contact
       </NavLink>
-      {user.userType != "Employee" ? (
+      {user && user.userType != "Employee" ? (
         <NavLink
           to="addUserPage"
           className={({ isActive }) =>

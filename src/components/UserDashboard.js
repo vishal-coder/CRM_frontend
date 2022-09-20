@@ -1,56 +1,89 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 import Button from "@mui/material/Button";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { getAllUsers } from "../services/UserService.js";
 
 import "./css/userdashboard.css";
+import { useSelector } from "react-redux";
 
 function UserDashboard() {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const [userlist, setUserlist] = useState(null);
+
+  useEffect(() => {
+    async function getData() {
+      const response = await getAllUsers(
+        {
+          username: user.email,
+          userType: user.userType,
+        },
+        user.token
+      );
+
+      setUserlist(response.users);
+      console.log("response of users is", response);
+    }
+    getData();
+  }, []);
+  const booleanChecker = (rowData, item) => {
+    if (typeof rowData[item.field] === "boolean") {
+      return rowData[item.field] ? "Accepted" : "Unaccepted";
+    } else {
+      return rowData[item.field];
+    }
+  };
   const columns = [
     {
-      name: "name",
-      label: "Name",
+      name: "firstname",
+      label: "Firstname",
       options: {
         filter: true,
         sort: true,
       },
     },
     {
-      name: "company",
-      label: "Company",
+      name: "lastname",
+      label: "Lastname",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "city",
-      label: "City",
+      name: "username",
+      label: "username",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "state",
-      label: "State",
+      name: "phone",
+      label: "Phone",
       options: {
         filter: true,
         sort: false,
       },
     },
-  ];
+    {
+      name: "isActive",
+      label: "isActive",
+      body: { booleanChecker },
 
-  const data = [
-    { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
-    { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
-    { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
     {
-      name: "James Houston",
-      company: "Test Corp",
-      city: "Dallas",
-      state: "TX",
+      name: "userType",
+      label: "User Type",
+      options: {
+        filter: true,
+        sort: false,
+      },
     },
   ];
 
@@ -60,12 +93,16 @@ function UserDashboard() {
 
   return (
     <div className="userdashboard">
-      <MUIDataTable
-        title={"Employee List"}
-        data={data}
-        columns={columns}
-        options={options}
-      />
+      {userlist && userlist.length > 0 ? (
+        <MUIDataTable
+          title={"Employee List"}
+          data={userlist}
+          columns={columns}
+          options={options}
+        />
+      ) : (
+        "Getting details.."
+      )}
     </div>
   );
 }
