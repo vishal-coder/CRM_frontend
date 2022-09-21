@@ -3,10 +3,11 @@ import MUIDataTable from "mui-datatables";
 import Button from "@mui/material/Button";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { deleteUser, getAllUsers } from "../services/UserService.js";
+import { toast } from "react-toastify";
 
 import "./css/userdashboard.css";
 import { useSelector } from "react-redux";
-import { getLead } from "../services/LeadService.js";
+import { deleteLead, getLead } from "../services/LeadService.js";
 
 function LeadDashboard() {
   const { user } = useSelector((state) => state.auth);
@@ -22,18 +23,12 @@ function LeadDashboard() {
         },
         user.token
       );
-      //   response.leads.forEach((element) => {
-      //     leadlist(...leadlist, element.leads);
-      //   });
       if (user.userType === "Manager") {
         const list = response.leads.map((lead) => lead.leads);
         setLeadlist(list);
       } else {
         setLeadlist(response.leads);
       }
-
-      console.log("response of Leads is", response);
-      console.log("response of Leads is----", response.leads);
     }
     getData();
   }, []);
@@ -48,10 +43,13 @@ function LeadDashboard() {
       return index == rowIndex;
     });
     console.log("deleteItem", deleteItem);
-    const response = await deleteUser({ username: deleteItem[0].username });
-    setLeadlist(updatedList);
-
-    console.log("updatedlist is", updatedList);
+    const response = await deleteLead({ id: deleteItem[0]._id });
+    if (response.success) {
+      setLeadlist(updatedList);
+      toast.success("Lead deleted successfully");
+    } else {
+      toast.warning("Please try again later");
+    }
   };
   const booleanChecker = (rowData, item) => {
     if (typeof rowData[item.field] === "boolean") {

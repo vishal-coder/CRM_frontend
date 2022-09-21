@@ -39,9 +39,12 @@ function UserDashboard() {
     });
     console.log("deleteItem", deleteItem[0].username);
     const response = await deleteUser({ username: deleteItem[0].username });
-    setUserlist(updatedList);
-
-    console.log("updatedlist is", updatedList);
+    if (response.success) {
+      setUserlist(updatedList);
+      toast.success("User deleted successfully");
+    } else {
+      toast.warning("Please try again later");
+    }
   };
   const booleanChecker = (rowData, item) => {
     if (typeof rowData[item.field] === "boolean") {
