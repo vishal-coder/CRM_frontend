@@ -16,7 +16,6 @@ function ContactDashboard() {
   useEffect(() => {
     async function getData() {
       console.log("getcontacts called");
-      alert("useeffect called");
       const response = await getContacts(
         {
           username: user.email,
@@ -121,7 +120,6 @@ function ContactDashboard() {
             "Payment Done" ? (
             <button
               onClick={(e) => {
-                alert("clicked");
                 navigate(
                   `/dashboard/addServiceRequest/${tableMeta.rowData[2]}`
                 );
@@ -132,7 +130,6 @@ function ContactDashboard() {
           ) : (
             <button
               onClick={(e) => {
-                alert("clicked");
                 handleMarkAsContact(tableMeta.rowIndex);
               }}
             >
@@ -145,14 +142,15 @@ function ContactDashboard() {
   ];
 
   const options = {
-    filterType: "checkbox",
+    selectableRows: false,
+    print: false,
   };
 
   return (
-    <div className="contactdashboard">
+    <div className="listdashboard">
       {contactlist && contactlist.length > 0 ? (
         <MUIDataTable
-          title={"Employee List"}
+          title={"Contact List"}
           data={contactlist}
           columns={columns}
           options={options}

@@ -29,7 +29,6 @@ function UserDashboard() {
   }, []);
 
   const handleDelete = async (rowIndex) => {
-    alert("inside handledelete");
     console.log("data", rowIndex);
     const updatedList = userlist.filter((item, index) => {
       return index != rowIndex;
@@ -114,8 +113,6 @@ function UserDashboard() {
           return (
             <button
               onClick={(e) => {
-                alert("clicked");
-                console.log(rowIndex);
                 handleDelete(rowIndex);
               }}
             >
@@ -128,11 +125,12 @@ function UserDashboard() {
   ];
 
   const options = {
-    filterType: "checkbox",
+    selectableRows: false,
+    print: false,
   };
 
   return (
-    <div className="userdashboard">
+    <div className="listdashboard">
       {userlist && userlist.length > 0 ? (
         <MUIDataTable
           title={"Employee List"}

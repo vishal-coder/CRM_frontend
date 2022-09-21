@@ -13,7 +13,6 @@ function LeadDashboard() {
   useEffect(() => {
     async function getData() {
       console.log("getleads called");
-      alert("useeffect called");
       const response = await getLead(
         {
           username: user.email,
@@ -136,7 +135,6 @@ function LeadDashboard() {
           return (
             <button
               onClick={(e) => {
-                alert("clicked");
                 console.log(rowIndex);
                 handleDelete(rowIndex);
               }}
@@ -158,7 +156,6 @@ function LeadDashboard() {
           return (
             <button
               onClick={(e) => {
-                alert("clicked");
                 console.log(rowIndex);
                 handleMarkAsContact(rowIndex);
               }}
@@ -172,14 +169,15 @@ function LeadDashboard() {
   ];
 
   const options = {
-    filterType: "checkbox",
+    selectableRows: false,
+    print: false,
   };
 
   return (
-    <div className="Leaddashboard">
+    <div className="listdashboard">
       {leadlist && leadlist.length > 0 ? (
         <MUIDataTable
-          title={"Employee List"}
+          title={"Leads List"}
           data={leadlist}
           columns={columns}
           options={options}

@@ -1,6 +1,10 @@
-.dashboarddetails {
+.dashboarddetails,
+.listdashboard {
   flex: 10;
   background-color: #e1e1e2;
   border-radius: 15px;
   overflow: auto;
+
+  text-align: center;
+  margin: 0.4rem;
 }

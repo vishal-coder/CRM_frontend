@@ -31,7 +31,7 @@ function UserDashboard() {
         console.log("updated list is", list);
         setServicelist(list);
       } else {
-        setServicelist(response.contacts);
+        setServicelist(response.serviceReq);
       }
     }
     getData();
@@ -125,27 +125,17 @@ function UserDashboard() {
             </button>
           );
         },
-        // customBodyRender: (value, tableMeta, updateValue) => {
-        //   return (
-        //     <button
-        //       onClick={(e) => {
-        //         handleUpdateRequestStatus(tableMeta.rowData[0]);
-        //       }}
-        //     >
-        //       Service Request
-        //     </button>
-        //   );
-        // },
       },
     },
   ];
 
   const options = {
-    filterType: "checkbox",
+    selectableRows: false,
+    print: false,
   };
 
   return (
-    <div className="userdashboard">
+    <div className="listdashboard">
       {servicelist && servicelist.length > 0 ? (
         <MUIDataTable
           title={"Service Request List"}

@@ -54,16 +54,15 @@ function Sidebar() {
       >
         All Contact
       </NavLink>
-      {user && user.userType != "Employee" ? (
-        <NavLink
-          to="serviceDashboard"
-          className={({ isActive }) =>
-            isActive ? "link-active sidebarItem" : "link sidebarItem"
-          }
-        >
-          Service Dashboard
-        </NavLink>
-      ) : null}
+      <NavLink
+        to="serviceDashboard"
+        className={({ isActive }) =>
+          isActive ? "link-active sidebarItem" : "link sidebarItem"
+        }
+      >
+        Service Dashboard
+      </NavLink>
+      {/* {user && user.userType != "Employee" ? null : null} */}
     </nav>
   );
 }
