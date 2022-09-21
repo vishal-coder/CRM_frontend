@@ -36,24 +36,6 @@ function ContactDashboard() {
     getData();
   }, []);
 
-  const handleDelete = async (rowIndex) => {
-    const updatedList = contactlist.filter((item, index) => {
-      return index != rowIndex;
-    });
-    const deleteItem = contactlist.filter((item, index) => {
-      return index == rowIndex;
-    });
-
-    // const response = await deleteContact({ id: deleteItem[0]._id });
-    const response = {};
-    if (response.success) {
-      setContactlist(updatedList);
-      toast.success("contact deleted successfully");
-    } else {
-      toast.warning("Please try again later");
-    }
-  };
-
   const handleMarkAsContact = async (rowIndex) => {
     const updatedList = contactlist.filter((item, index) => {
       return index != rowIndex;

@@ -1,20 +1,22 @@
 import MUIDataTable from "mui-datatables";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { deleteUser, getAllUsers } from "../services/UserService.js";
+import {
+  getAllServiceRequest,
+  updateRequestStatus,
+} from "../services/ServiceRequestUtiility.js";
 
 import { useSelector } from "react-redux";
 import "./css/userdashboard.css";
+import { formatDate } from "../services/UtilityService.js";
 
 function UserDashboard() {
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const [userlist, setUserlist] = useState(null);
+  const [servicelist, setServicelist] = useState(null);
 
   useEffect(() => {
     async function getData() {
-      const response = await getAllUsers(
+      const response = await getAllServiceRequest(
         {
           username: user.email,
           userType: user.userType,
@@ -22,107 +24,118 @@ function UserDashboard() {
         user.token
       );
 
-      setUserlist(response.users);
-      console.log("response of users is", response);
+      // setServicelist(response.serviceReq);
+      console.log("response of getAllServiceRequest is", response);
+      if (user.userType === "Manager") {
+        const list = response.serviceReq.map((service) => service.serviceReq);
+        console.log("updated list is", list);
+        setServicelist(list);
+      } else {
+        setServicelist(response.contacts);
+      }
     }
     getData();
   }, []);
 
-  const handleDelete = async (rowIndex) => {
-    alert("inside handledelete");
-    console.log("data", rowIndex);
-    const updatedList = userlist.filter((item, index) => {
-      return index != rowIndex;
+  const handleUpdateRequestStatus = async (_id) => {
+    console.log("inside handleUpdateRequestStatus", _id);
+    const response = await updateRequestStatus({ id: _id });
+    const updatedList = servicelist.filter((item) => {
+      return item._id === _id ? (item.status = "Closed") : item;
     });
-    const deleteItem = userlist.filter((item, index) => {
-      return index == rowIndex;
-    });
-    console.log("deleteItem", deleteItem[0].username);
-    const response = await deleteUser({ username: deleteItem[0].username });
     if (response.success) {
-      setUserlist(updatedList);
-      toast.success("User deleted successfully");
+      toast.success("Status Updated  successfully");
+      setServicelist(updatedList);
     } else {
       toast.warning("Please try again later");
     }
   };
-  const booleanChecker = (rowData, item) => {
-    if (typeof rowData[item.field] === "boolean") {
-      return rowData[item.field] ? "Accepted" : "Unaccepted";
-    } else {
-      return rowData[item.field];
-    }
-  };
+
   const columns = [
     {
-      name: "firstname",
-      label: "Firstname",
+      name: "_id",
+      label: "id",
+      options: {
+        filter: true,
+        sort: true,
+        display: false,
+      },
+    },
+    {
+      name: "email",
+      label: "Customer",
       options: {
         filter: true,
         sort: true,
       },
     },
     {
-      name: "lastname",
-      label: "Lastname",
+      name: "description",
+      label: "Description",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "username",
-      label: "username",
+      name: "createdBy",
+      label: "Created By",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "phone",
-      label: "Phone",
+      name: "priority",
+      label: "Pririty",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "isActive",
-      label: "isActive",
-      body: { booleanChecker },
+      name: "createdOn",
+      label: "Created On",
+      options: {
+        filter: true,
+        sort: false,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return formatDate(value);
+        },
+      },
+    },
 
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
     {
-      name: "userType",
-      label: "User Type",
+      name: "status",
+      label: "Status",
       options: {
         filter: true,
         sort: false,
-      },
-    },
-    {
-      name: "",
-      label: "Action",
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRenderLite: (rowIndex) => {
-          return (
+        customBodyRender: (value, tableMeta, updateValue) => {
+          console.log();
+          return value === "Closed" ? (
+            value
+          ) : (
             <button
               onClick={(e) => {
-                alert("clicked");
-                console.log(rowIndex);
-                handleDelete(rowIndex);
+                handleUpdateRequestStatus(tableMeta.rowData[0]);
               }}
             >
-              Delete
+              Close Request
             </button>
           );
         },
+        // customBodyRender: (value, tableMeta, updateValue) => {
+        //   return (
+        //     <button
+        //       onClick={(e) => {
+        //         handleUpdateRequestStatus(tableMeta.rowData[0]);
+        //       }}
+        //     >
+        //       Service Request
+        //     </button>
+        //   );
+        // },
       },
     },
   ];
@@ -133,10 +146,10 @@ function UserDashboard() {
 
   return (
     <div className="userdashboard">
-      {userlist && userlist.length > 0 ? (
+      {servicelist && servicelist.length > 0 ? (
         <MUIDataTable
-          title={"Employee List"}
-          data={userlist}
+          title={"Service Request List"}
+          data={servicelist}
           columns={columns}
           options={options}
         />
