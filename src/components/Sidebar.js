@@ -45,16 +45,9 @@ function Sidebar() {
       >
         All Leads
       </NavLink>
+
       <NavLink
-        to="register1"
-        className={({ isActive }) =>
-          isActive ? "link-active sidebarItem" : "link sidebarItem"
-        }
-      >
-        Create Contacts
-      </NavLink>
-      <NavLink
-        to="register1"
+        to="contactDashboard"
         className={({ isActive }) =>
           isActive ? "link-active sidebarItem" : "link sidebarItem"
         }
@@ -63,12 +56,12 @@ function Sidebar() {
       </NavLink>
       {user && user.userType != "Employee" ? (
         <NavLink
-          to="addUserPage"
+          to="serviceDashboard"
           className={({ isActive }) =>
             isActive ? "link-active sidebarItem" : "link sidebarItem"
           }
         >
-          Payment Status
+          Service Dashboard
         </NavLink>
       ) : null}
     </nav>

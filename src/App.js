@@ -16,6 +16,9 @@ import UserDashboard from "./components/UserDashboard";
 import AddUserPage from "./components/AddUserPage";
 import AddLead from "./components/AddLead";
 import LeadDashboard from "./components/LeadDashboard";
+import ContactDashboard from "./components/ContactDashboard";
+import ServiceDashboard from "./components/ServiceDashboard.js";
+import AddServiceRequest from "./components/AddServiceRequest";
 
 function App() {
   return (
@@ -34,6 +37,12 @@ function App() {
           <Route path="addUserPage" element={<AddUserPage />} />
           <Route path="addLead" element={<AddLead />} />
           <Route path="leadDashboard" element={<LeadDashboard />} />
+          <Route path="contactDashboard" element={<ContactDashboard />} />
+          <Route path="serviceDashboard" element={<ServiceDashboard />} />
+          <Route
+            path="addServiceRequest/:email"
+            element={<AddServiceRequest />}
+          />
         </Route>
       </Routes>
     </div>

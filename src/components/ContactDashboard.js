@@ -5,65 +5,67 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { deleteLead, getLead, MarkAsContact } from "../services/LeadService.js";
 import "./css/userdashboard.css";
+import { getContacts } from "../services/contactService.js";
+import { Navigate, useNavigate } from "react-router-dom";
 
-function LeadDashboard() {
+function ContactDashboard() {
   const { user } = useSelector((state) => state.auth);
-  const [leadlist, setLeadlist] = useState([]);
+  const [contactlist, setContactlist] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getData() {
-      console.log("getleads called");
+      console.log("getcontacts called");
       alert("useeffect called");
-      const response = await getLead(
+      const response = await getContacts(
         {
           username: user.email,
           userType: user.userType,
         },
         user.token
       );
+      console.log("response is", response);
       if (user.userType === "Manager") {
-        const list = response.leads
-          .map((lead) => lead.leads)
-          .filter(function (lead) {
-            return lead.status !== "Marked As Contact";
-          });
-        setLeadlist(list);
+        const list = response.contacts.map((contact) => contact.contactList);
+        console.log("updated list is", list);
+        setContactlist(list);
       } else {
-        setLeadlist(response.leads);
+        setContactlist(response.contacts);
       }
     }
     getData();
   }, []);
 
   const handleDelete = async (rowIndex) => {
-    const updatedList = leadlist.filter((item, index) => {
+    const updatedList = contactlist.filter((item, index) => {
       return index != rowIndex;
     });
-    const deleteItem = leadlist.filter((item, index) => {
+    const deleteItem = contactlist.filter((item, index) => {
       return index == rowIndex;
     });
 
-    const response = await deleteLead({ id: deleteItem[0]._id });
+    // const response = await deleteContact({ id: deleteItem[0]._id });
+    const response = {};
     if (response.success) {
-      setLeadlist(updatedList);
-      toast.success("Lead deleted successfully");
+      setContactlist(updatedList);
+      toast.success("contact deleted successfully");
     } else {
       toast.warning("Please try again later");
     }
   };
 
   const handleMarkAsContact = async (rowIndex) => {
-    const updatedList = leadlist.filter((item, index) => {
+    const updatedList = contactlist.filter((item, index) => {
       return index != rowIndex;
     });
-    const selectedItem = leadlist.filter((item, index) => {
+    const selectedItem = contactlist.filter((item, index) => {
       return index == rowIndex;
     });
 
     const response = await MarkAsContact({ id: selectedItem[0]._id });
     if (response.success) {
-      setLeadlist(updatedList);
-      toast.success("Lead deleted successfully");
+      setContactlist(updatedList);
+      toast.success("contact deleted successfully");
     } else {
       toast.warning("Please try again later");
     }
@@ -119,8 +121,8 @@ function LeadDashboard() {
       },
     },
     {
-      name: "source",
-      label: "Source",
+      name: "status",
+      label: "Status",
       options: {
         filter: true,
         sort: false,
@@ -132,38 +134,27 @@ function LeadDashboard() {
       options: {
         filter: true,
         sort: false,
-        customBodyRenderLite: (rowIndex) => {
-          return (
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return tableMeta.rowData[tableMeta.columnIndex - 1] ===
+            "Payment Done" ? (
             <button
               onClick={(e) => {
                 alert("clicked");
-                console.log(rowIndex);
-                handleDelete(rowIndex);
+                navigate(
+                  `/dashboard/addServiceRequest/${tableMeta.rowData[2]}`
+                );
               }}
             >
-              Delete
+              Service Request
             </button>
-          );
-        },
-      },
-    },
-    {
-      name: "",
-      label: "Action",
-      options: {
-        filter: true,
-        sort: false,
-
-        customBodyRenderLite: (rowIndex) => {
-          return (
+          ) : (
             <button
               onClick={(e) => {
                 alert("clicked");
-                console.log(rowIndex);
-                handleMarkAsContact(rowIndex);
+                handleMarkAsContact(tableMeta.rowIndex);
               }}
             >
-              Mark As Contact
+              Payment Link
             </button>
           );
         },
@@ -176,19 +167,19 @@ function LeadDashboard() {
   };
 
   return (
-    <div className="Leaddashboard">
-      {leadlist && leadlist.length > 0 ? (
+    <div className="contactdashboard">
+      {contactlist && contactlist.length > 0 ? (
         <MUIDataTable
           title={"Employee List"}
-          data={leadlist}
+          data={contactlist}
           columns={columns}
           options={options}
         />
       ) : (
-        "it seems that list is empty.."
+        "it seems that Contact list is empty.."
       )}
     </div>
   );
 }
 
-export default LeadDashboard;
+export default ContactDashboard;
