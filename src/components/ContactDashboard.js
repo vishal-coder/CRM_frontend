@@ -7,6 +7,7 @@ import { deleteLead, getLead, MarkAsContact } from "../services/LeadService.js";
 import "./css/userdashboard.css";
 import { getContacts } from "../services/contactService.js";
 import { Navigate, useNavigate } from "react-router-dom";
+import { generatePaymentLink } from "../services/PaymentService.js";
 
 function ContactDashboard() {
   const { user } = useSelector((state) => state.auth);
@@ -35,30 +36,28 @@ function ContactDashboard() {
     getData();
   }, []);
 
-  const handleMarkAsContact = async (rowIndex) => {
-    const updatedList = contactlist.filter((item, index) => {
-      return index != rowIndex;
-    });
-    const selectedItem = contactlist.filter((item, index) => {
-      return index == rowIndex;
-    });
+  const handleGeneratePaymentLink = async (rowIndex, rowData) => {
+    console.log("handleGeneratePaymentLink", rowIndex, rowData);
+    const response = await generatePaymentLink({ id: rowData[0] });
+    console.log("generated payment link -", response);
 
-    const response = await MarkAsContact({ id: selectedItem[0]._id });
     if (response.success) {
-      setContactlist(updatedList);
-      toast.success("contact deleted successfully");
+      toast.success("Payment Link Generated successfully");
     } else {
       toast.warning("Please try again later");
     }
   };
-  const booleanChecker = (rowData, item) => {
-    if (typeof rowData[item.field] === "boolean") {
-      return rowData[item.field] ? "Accepted" : "Unaccepted";
-    } else {
-      return rowData[item.field];
-    }
-  };
+
   const columns = [
+    {
+      name: "_id",
+      label: "id",
+      options: {
+        filter: true,
+        sort: true,
+        display: false,
+      },
+    },
     {
       name: "firstname",
       label: "Firstname",
@@ -94,7 +93,6 @@ function ContactDashboard() {
     {
       name: "createdBy",
       label: "Created By",
-      body: { booleanChecker },
 
       options: {
         filter: true,
@@ -130,7 +128,10 @@ function ContactDashboard() {
           ) : (
             <button
               onClick={(e) => {
-                handleMarkAsContact(tableMeta.rowIndex);
+                handleGeneratePaymentLink(
+                  tableMeta.rowIndex,
+                  tableMeta.rowData
+                );
               }}
             >
               Payment Link
@@ -142,7 +143,7 @@ function ContactDashboard() {
   ];
 
   const options = {
-    selectableRows: false,
+    selectableRows: "none",
     print: false,
   };
 

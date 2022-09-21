@@ -19,6 +19,7 @@ import LeadDashboard from "./components/LeadDashboard";
 import ContactDashboard from "./components/ContactDashboard";
 import ServiceDashboard from "./components/ServiceDashboard.js";
 import AddServiceRequest from "./components/AddServiceRequest";
+import PaymentPage from "./components/PaymentPage";
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
         <Route path="/verifyEmail/:token" element={<VerifyEmail />} />
         <Route path="resetpassword" element={<ResetPassword />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
+        <Route path="paymentPage" element={<PaymentPage />} />
+
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="userDashboard" element={<UserDashboard />} />
           <Route path="addUserPage" element={<AddUserPage />} />
