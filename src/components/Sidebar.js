@@ -16,21 +16,19 @@ function Sidebar() {
       // dispatch(addNewpost(data.fullDocument));
       // toast.success("New user  added to list");
     });
-    socket.on("lead added", (data) => {
+    socket.on("new lead", (data) => {
       console.log("lead added", data);
-      // dispatch(addNewpost(data.fullDocument));
-      // toast.success("New lead  added to list");
+      toast.success("New Lead  added by user ");
     });
     socket.on("new contact", (data) => {
       console.log("contact added--", data);
-      // dispatch(addNewpost(data.fullDocument));
-      // toast.success("New lead  added to list");
-    });
-    socket.on("contact added", (data) => {
-      console.log("contact added", data);
-      // dispatch(addNewpost(data.fullDocument));
       toast.success("New Contact added by user ");
     });
+
+    return () => {
+      socket.off("new lead");
+      socket.off("new contact");
+    };
   }, []);
   return (
     <nav className="flex-column sidebar">
