@@ -9,19 +9,11 @@ function Sidebar() {
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    alert("sidebar");
     socket.on("connect", () => {});
-    socket.on("user added", (data) => {
-      console.log("user added", data);
-      // dispatch(addNewpost(data.fullDocument));
-      // toast.success("New user  added to list");
-    });
     socket.on("new lead", (data) => {
-      console.log("lead added", data);
       toast.success("New Lead  added by user ");
     });
     socket.on("new contact", (data) => {
-      console.log("contact added--", data);
       toast.success("New Contact added by user ");
     });
 
@@ -87,7 +79,6 @@ function Sidebar() {
       >
         Service Dashboard
       </NavLink>
-      {/* {user && user.userType != "Employee" ? null : null} */}
     </nav>
   );
 }

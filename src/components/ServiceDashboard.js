@@ -7,8 +7,8 @@ import {
 } from "../services/ServiceRequestUtiility.js";
 
 import { useSelector } from "react-redux";
-import "./css/userdashboard.css";
 import { formatDate } from "../services/UtilityService.js";
+import "./css/userdashboard.css";
 
 function UserDashboard() {
   const { user } = useSelector((state) => state.auth);
@@ -24,11 +24,8 @@ function UserDashboard() {
         user.token
       );
 
-      // setServicelist(response.serviceReq);
-      console.log("response of getAllServiceRequest is", response);
       if (user.userType === "Manager") {
         const list = response.serviceReq.map((service) => service.serviceReq);
-        console.log("updated list is", list);
         setServicelist(list);
       } else {
         setServicelist(response.serviceReq);
@@ -38,7 +35,6 @@ function UserDashboard() {
   }, []);
 
   const handleUpdateRequestStatus = async (_id) => {
-    console.log("inside handleUpdateRequestStatus", _id);
     const response = await updateRequestStatus({ id: _id });
     const updatedList = servicelist.filter((item) => {
       return item._id === _id ? (item.status = "Closed") : item;
@@ -112,7 +108,6 @@ function UserDashboard() {
         filter: true,
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log();
           return value === "Closed" ? (
             value
           ) : (

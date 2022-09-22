@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import { useSelector } from "react-redux";
-import { deleteLead, getLead, MarkAsContact } from "../services/LeadService.js";
-import "./css/userdashboard.css";
+import { useNavigate } from "react-router-dom";
 import { getContacts } from "../services/contactService.js";
-import { Navigate, useNavigate } from "react-router-dom";
 import { generatePaymentLink } from "../services/PaymentService.js";
+import "./css/userdashboard.css";
 
 function ContactDashboard() {
   const { user } = useSelector((state) => state.auth);
@@ -16,7 +15,6 @@ function ContactDashboard() {
 
   useEffect(() => {
     async function getData() {
-      console.log("getcontacts called");
       const response = await getContacts(
         {
           username: user.email,
@@ -24,10 +22,8 @@ function ContactDashboard() {
         },
         user.token
       );
-      console.log("response is", response);
       if (user.userType === "Manager") {
         const list = response.contacts.map((contact) => contact.contactList);
-        console.log("updated list is", list);
         setContactlist(list);
       } else {
         setContactlist(response.contacts);
@@ -37,10 +33,7 @@ function ContactDashboard() {
   }, []);
 
   const handleGeneratePaymentLink = async (rowIndex, rowData) => {
-    console.log("handleGeneratePaymentLink", rowIndex, rowData);
     const response = await generatePaymentLink({ id: rowData[0] });
-    console.log("generated payment link -", response);
-
     if (response.success) {
       alert(`Payment Link is - ${response.paymentLink}`);
       toast.success("Payment Link Generated successfully");

@@ -1,7 +1,7 @@
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { string } from "yup";
@@ -17,7 +17,6 @@ function ResetPassword() {
   }, []);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
-  //   const styles = { background: flag === true ? "#CAF9C4" : "" };
   const userValidation = yup.object({
     password: string().required().min(6),
     confirmPassword: string()

@@ -1,13 +1,11 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Send } from "react-bootstrap-icons";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import * as yup from "yup";
 import { string } from "yup";
 import { handleforgotpassword } from "../services/authService.js";
-import Badge from "react-bootstrap/Badge";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { Send } from "react-bootstrap-icons";
 
 function ForgotPassword() {
   const [isdisabled, setIsdisabled] = useState(false);

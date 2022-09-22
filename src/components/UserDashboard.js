@@ -1,6 +1,5 @@
 import MUIDataTable from "mui-datatables";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { deleteUser, getAllUsers } from "../services/UserService.js";
 
@@ -8,7 +7,6 @@ import { useSelector } from "react-redux";
 import "./css/userdashboard.css";
 
 function UserDashboard() {
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [userlist, setUserlist] = useState(null);
 
@@ -23,13 +21,11 @@ function UserDashboard() {
       );
 
       setUserlist(response.users);
-      console.log("response of users is", response);
     }
     getData();
   }, []);
 
   const handleDelete = async (rowIndex) => {
-    console.log("data", rowIndex);
     const updatedList = userlist.filter((item, index) => {
       return index != rowIndex;
     });

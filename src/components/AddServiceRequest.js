@@ -1,24 +1,19 @@
-import "./css/addlead.css";
-import Col from "react-bootstrap/Col";
+import { useFormik } from "formik";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { string } from "yup";
-import { useNavigate, useParams } from "react-router-dom";
-import { submitRegistration } from "../services/authService";
-import { toast } from "react-toastify";
-import { useState } from "react";
 import { useSelector } from "react-redux";
-import { createLead } from "../services/LeadService";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as yup from "yup";
 import { createServiceRequest } from "../services/ServiceRequestUtiility";
+import "./css/addlead.css";
 
 function AddServiceRequest() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { email } = useParams();
-  console.log("user mail thr param is", email);
 
   const [loading, setLoading] = useState(false);
   const formvalidation = yup.object({
@@ -47,7 +42,6 @@ function AddServiceRequest() {
       setLoading(true);
       values.email = email;
       values.createdBy = user.email;
-      console.log("service req data is", values);
 
       const response = await createServiceRequest(values);
       setLoading(false);

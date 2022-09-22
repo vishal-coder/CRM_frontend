@@ -1,20 +1,17 @@
-import "./css/addlead.css";
-import Col from "react-bootstrap/Col";
+import { useFormik } from "formik";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import { useFormik } from "formik";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 import { string } from "yup";
-import { useNavigate } from "react-router-dom";
-import { submitRegistration } from "../services/authService";
-import { toast } from "react-toastify";
-import { useState } from "react";
-import { useSelector } from "react-redux";
 import { createLead } from "../services/LeadService";
+import "./css/addlead.css";
 
 function AddLead() {
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
   const [loading, setLoading] = useState(false);

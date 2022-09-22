@@ -12,7 +12,6 @@ function LeadDashboard() {
 
   useEffect(() => {
     async function getData() {
-      console.log("getleads called");
       const response = await getLead(
         {
           username: user.email,
@@ -156,7 +155,6 @@ function LeadDashboard() {
           return (
             <button
               onClick={(e) => {
-                console.log(rowIndex);
                 handleMarkAsContact(rowIndex);
               }}
             >
@@ -183,7 +181,7 @@ function LeadDashboard() {
           options={options}
         />
       ) : (
-        "it seems that list is empty.."
+        "eithre their is no data or its taking more time to get details.."
       )}
     </div>
   );

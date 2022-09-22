@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { verifyPayment } from "../services/PaymentService";
 
 function PaymentPage() {
@@ -32,7 +30,6 @@ function PaymentPage() {
     };
 
     const response = await verifyPayment(data);
-    console.log("payment verification resonse is", response);
     setLoading(false);
     if (response.success) {
       setStatus(true);

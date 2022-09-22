@@ -5,4 +5,4 @@ function DashboardDetails() {
   return <div className="dashboarddetails">DashboardDetails</div>;
 }
 
-export default DashboardDetails;
+export default ;

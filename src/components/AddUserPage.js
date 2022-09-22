@@ -1,19 +1,16 @@
-import "./css/register.css";
-import Col from "react-bootstrap/Col";
+import { useFormik } from "formik";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import { useFormik } from "formik";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 import { string } from "yup";
-import { useNavigate } from "react-router-dom";
 import { submitRegistration } from "../services/authService";
-import { toast } from "react-toastify";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import "./css/register.css";
 
 function AddUserPage() {
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
   const [loading, setLoading] = useState(false);
@@ -43,7 +40,6 @@ function AddUserPage() {
     },
     validationSchema: formvalidation,
     onSubmit: async (values) => {
-      console.log(user);
       setLoading(true);
       values.userType = "Employee";
       values.parent = user.email;

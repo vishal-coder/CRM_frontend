@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { Search } from "react-bootstrap-icons";
-import "./css/navbar.css";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { logoutUser } from "../services/authService";
 import { LOG_OUT } from "../features/auth/authSlice";
+import { logoutUser } from "../services/authService";
+import "./css/navbar.css";
 
 function HeaderComponent() {
   const navigate = useNavigate();

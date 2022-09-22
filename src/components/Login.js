@@ -13,7 +13,6 @@ function Login() {
   const dispatch = useDispatch();
   const handleLogin = async (values) => {
     const response = await requestLogin(values);
-    console.log(response);
     if (!response.success) {
       setFieldError("username", response.message);
     } else {
@@ -29,30 +28,6 @@ function Login() {
     username: yup.string().email().required("Please enter valid email address"),
     password: yup.string().required("please enter your password"),
   });
-
-  // useEffect(() => {
-  //   socket.on("connect", () => {});
-  //   socket.on("user added", (data) => {
-  //     console.log("user added", data);
-  //     // dispatch(addNewpost(data.fullDocument));
-  //     // toast.success("New user  added to list");
-  //   });
-  //   socket.on("lead added", (data) => {
-  //     console.log("lead added", data);
-  //     // dispatch(addNewpost(data.fullDocument));
-  //     // toast.success("New lead  added to list");
-  //   });
-  //   socket.on("contact added", (data) => {
-  //     console.log("contact added", data);
-  //     // dispatch(addNewpost(data.fullDocument));
-  //     // toast.success("New lead  added to list");
-  //   });
-  //   socket.on("contact added", (data) => {
-  //     console.log("contact added", data);
-  //     // dispatch(addNewpost(data.fullDocument));
-  //     // toast.success("New lead  added to list");
-  //   });
-  // }, []);
 
   const {
     formik,
@@ -90,9 +65,6 @@ function Login() {
             onBlur={handleBlur}
             required
           />
-          {/* <Form.Text className="text-muted">
-            your email is your username
-          </Form.Text> */}
         </Form.Group>
         {touched.password && errors.password ? (
           <div className="error">{errors.password}</div>
@@ -115,12 +87,6 @@ function Login() {
           Login
         </Button>
         <Form.Group className="mb-3 loginhelper" controlId="formBasicCheckbox">
-          {/* <p>
-            Not a member?{" "}
-            <a href="" onClick={() => navigate("/register")}>
-              Register
-            </a>
-          </p> */}
           <p>
             <a href="" onClick={() => navigate("/forgotpassword")}>
               Forgot Password
