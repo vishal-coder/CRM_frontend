@@ -86,7 +86,7 @@ function UserDashboard() {
       label: "Pririty",
       options: {
         filter: true,
-        sort: false,
+        sort: true,
       },
     },
     {
@@ -106,7 +106,7 @@ function UserDashboard() {
       label: "Status",
       options: {
         filter: true,
-        sort: false,
+        sort: true,
         customBodyRender: (value, tableMeta, updateValue) => {
           return value === "Closed" ? (
             value
