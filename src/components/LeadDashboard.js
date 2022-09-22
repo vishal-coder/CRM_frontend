@@ -62,7 +62,7 @@ function LeadDashboard() {
     const response = await MarkAsContact({ id: selectedItem[0]._id });
     if (response.success) {
       setLeadlist(updatedList);
-      toast.success("Lead deleted successfully");
+      toast.success("Lead updated  successfully");
     } else {
       toast.warning("Please try again later");
     }
