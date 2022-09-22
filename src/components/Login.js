@@ -1,15 +1,13 @@
-import "./css/login.css";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import * as yup from "yup";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
-import { requestLogin } from "../services/authService.js";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { socket } from "../context/socket";
 import { setUser } from "../features/auth/authSlice.js";
-import { toast } from "react-toastify";
+import { requestLogin } from "../services/authService.js";
+import "./css/login.css";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,7 +18,10 @@ function Login() {
       setFieldError("username", response.message);
     } else {
       dispatch(setUser(response.user));
-
+      socket.emit("new user", {
+        username: response.user.email,
+        userType: response.user.userType,
+      });
       navigate("/dashboard");
     }
   };
@@ -28,6 +29,30 @@ function Login() {
     username: yup.string().email().required("Please enter valid email address"),
     password: yup.string().required("please enter your password"),
   });
+
+  // useEffect(() => {
+  //   socket.on("connect", () => {});
+  //   socket.on("user added", (data) => {
+  //     console.log("user added", data);
+  //     // dispatch(addNewpost(data.fullDocument));
+  //     // toast.success("New user  added to list");
+  //   });
+  //   socket.on("lead added", (data) => {
+  //     console.log("lead added", data);
+  //     // dispatch(addNewpost(data.fullDocument));
+  //     // toast.success("New lead  added to list");
+  //   });
+  //   socket.on("contact added", (data) => {
+  //     console.log("contact added", data);
+  //     // dispatch(addNewpost(data.fullDocument));
+  //     // toast.success("New lead  added to list");
+  //   });
+  //   socket.on("contact added", (data) => {
+  //     console.log("contact added", data);
+  //     // dispatch(addNewpost(data.fullDocument));
+  //     // toast.success("New lead  added to list");
+  //   });
+  // }, []);
 
   const {
     formik,

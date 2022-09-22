@@ -42,6 +42,7 @@ function ContactDashboard() {
     console.log("generated payment link -", response);
 
     if (response.success) {
+      alert(`Payment Link is - ${response.paymentLink}`);
       toast.success("Payment Link Generated successfully");
     } else {
       toast.warning("Please try again later");

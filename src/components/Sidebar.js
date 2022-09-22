@@ -1,10 +1,37 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import { socket } from "../context/socket";
 import "./css/sidebar.css";
 
 function Sidebar() {
   const { user } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    alert("sidebar");
+    socket.on("connect", () => {});
+    socket.on("user added", (data) => {
+      console.log("user added", data);
+      // dispatch(addNewpost(data.fullDocument));
+      // toast.success("New user  added to list");
+    });
+    socket.on("lead added", (data) => {
+      console.log("lead added", data);
+      // dispatch(addNewpost(data.fullDocument));
+      // toast.success("New lead  added to list");
+    });
+    socket.on("new contact", (data) => {
+      console.log("contact added--", data);
+      // dispatch(addNewpost(data.fullDocument));
+      // toast.success("New lead  added to list");
+    });
+    socket.on("contact added", (data) => {
+      console.log("contact added", data);
+      // dispatch(addNewpost(data.fullDocument));
+      toast.success("New Contact added by user ");
+    });
+  }, []);
   return (
     <nav className="flex-column sidebar">
       {user && user.userType != "Employee" ? (

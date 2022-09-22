@@ -4,16 +4,16 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./features/store";
-
+import { SocketContext, socket } from "./context/socket.js";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      {/* <SocketContext.Provider value={socket}> */}
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-      {/* </SocketContext.Provider> */}
+      <SocketContext.Provider value={socket}>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </SocketContext.Provider>
     </BrowserRouter>
   </Provider>
 );
