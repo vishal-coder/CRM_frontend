@@ -1,4 +1,4 @@
-# [FundeME100](https://easycrm.netlify.app) - Website
+# [EasyCRM](https://easycrm.netlify.app) - Website
 
   [Front End](https://github.com/vishal-coder/CRM_frontend)
   [Back End](https://github.com/vishal-coder/CRM_backend)
