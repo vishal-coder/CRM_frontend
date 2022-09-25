@@ -43,7 +43,6 @@ function AddLead() {
     },
     validationSchema: formvalidation,
     onSubmit: async (values) => {
-      console.log(user);
       setLoading(true);
       values.createdBy = user.email;
       values.category = "Lead";

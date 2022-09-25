@@ -125,7 +125,7 @@ function UserDashboard() {
   ];
 
   const options = {
-    selectableRows: false,
+    selectableRows: "none",
     print: false,
   };
 

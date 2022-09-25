@@ -38,7 +38,6 @@ function AddServiceRequest() {
     },
     validationSchema: formvalidation,
     onSubmit: async (values) => {
-      console.log(user);
       setLoading(true);
       values.email = email;
       values.createdBy = user.email;

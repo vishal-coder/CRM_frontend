@@ -134,7 +134,6 @@ function LeadDashboard() {
           return (
             <button
               onClick={(e) => {
-                console.log(rowIndex);
                 handleDelete(rowIndex);
               }}
             >
@@ -167,7 +166,7 @@ function LeadDashboard() {
   ];
 
   const options = {
-    selectableRows: false,
+    selectableRows: "none",
     print: false,
   };
 

@@ -32,7 +32,7 @@ function UserDashboard() {
     const deleteItem = userlist.filter((item, index) => {
       return index == rowIndex;
     });
-    console.log("deleteItem", deleteItem[0].username);
+
     const response = await deleteUser({ username: deleteItem[0].username });
     if (response.success) {
       setUserlist(updatedList);
@@ -121,7 +121,7 @@ function UserDashboard() {
   ];
 
   const options = {
-    selectableRows: false,
+    selectableRows: "none",
     print: false,
   };
 
