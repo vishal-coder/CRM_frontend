@@ -19,7 +19,7 @@
 
 `Payment` - RazorPay Payment gateway is used to generate sharable payment link using which user can pay for services.Once the user pays service amount, details of payment will be sent to Payment gateway to check  authenticity of signature and payment ID. Once authenticated success page will be shown to user   
 `Payment Method:`
-Select Net Banking -> select any Bank -> click on Pay button -> click on success
+Select Net Banking -> select any Bank -> click on Pay button -> click on success  
 For payment phone :- 1234567890 and email - test@test.com
 		NOTE:- As app is using dummy emails payment link  will be shown in popup
 		
