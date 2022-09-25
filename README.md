@@ -10,14 +10,14 @@
 - User can activate account by clicking on account activation link and after that user can start using CRM APP
 - User can create Lead, contact and Service Request
 
-Manager - All of User Features plus can create User
+`Manager` - All of User Features plus can create User
 			-	Create and delete- Leads,Contact and service Request created by all Users under him/her
 	
-Admin - All of User Features plus
+`Admin` - All of User Features plus
 		- User created By Managers
 		- Leads,Contact and service Request created by all Users and Managers
 
-Payment - RazorPay Payment gateway is used to generate sharable payment link using which user can pay for services.Once the user pays service amount, details of payment will be sent to Payment gateway to check  authenticity of signature and payment ID. Once authenticated success page will be shown to user
+`Payment` - RazorPay Payment gateway is used to generate sharable payment link using which user can pay for services.Once the user pays service amount, details of payment will be sent to Payment gateway to check  authenticity of signature and payment ID. Once authenticated success page will be shown to user
 		NOTE:- As app is using dummy emails payment link  will be shown in popup
 
 ### `Short tech summary`
@@ -36,10 +36,10 @@ Payment - RazorPay Payment gateway is used to generate sharable payment link usi
   - Can create new service request and close service request
   
 ### `Manager Features`
-		- All of User Features plus.
-		- View all user created By him/her Managers
-		- Delete users created By him/her
-		- Leads,Contact and service Request created by all Users under him/her 
+- All of User Features plus.
+- View all user created By him/her Managers
+- Delete users created By him/her
+- Leads,Contact and service Request created by all Users under him/her 
 		
   
   
@@ -59,7 +59,7 @@ Payment - RazorPay Payment gateway is used to generate sharable payment link usi
   - Socket.io - for Push Notification
   - RazorPay Payment Gateway for Payment Integration - Sharable Payments Link is used
 
-
+# ScreenShots
 - Homepage
 ![Homepage](/ScreenShots/Home.JPG "Homepage")
 
